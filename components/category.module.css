@@ -1,0 +1,14 @@
+.tabsheader{
+    display: flex;
+    align-items: center;
+}
+
+.tabs{
+    flex: 1;
+}
+
+.moreIcon{
+    font-size: 0.6rem;
+    margin: 0 0.1rem;
+    transform: translateY(-0.06rem);
+}
