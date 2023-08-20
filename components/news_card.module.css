@@ -1,0 +1,39 @@
+.newsContainerB{
+    display: flex;
+}
+
+.newsContainerA{
+    padding: 0.3rem 0.3rem;
+    border-bottom: 0.01rem solid rgba(226, 223, 223, 0.477);
+}
+
+.newsContainerC{
+    padding: 0.3rem 0.3rem;
+}
+
+.newsImgContainer{
+    display: flex;
+    margin: 0.2rem;
+    width: 100%;
+    height: 20vw;
+    justify-content: space-between;
+}
+
+.newsImgContainer >img{
+    width: 30vw;
+    height: 100%;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.newsTitle{
+    font-size: 0.45rem;
+    margin-bottom: 0.2rem;
+}
+.newsBottom{
+    color: gray;
+}
+.newsBottom > span{
+    margin-right: 0.2rem;
+    font-size: 0.37rem;
+}
