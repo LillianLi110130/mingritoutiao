@@ -81,7 +81,6 @@ export default function Category(props) {
   ];
 
   const onChange = function (key) {
-    // sessionStorage.setItem("category", key);
     category_status.saveCategory(key);
     setCategory(key);
     categoryRef.current = key;
@@ -91,7 +90,6 @@ export default function Category(props) {
     
   };
   useEffect(() => {
-    // sessionStorage.setItem("test", "123");
     let temp = category_status.getCategory();
     console.log(temp);
     if (!temp) {

@@ -4,7 +4,7 @@ import Category from "./category";
 import { getNewsFromCategory } from "../api/newsapi";
 import NewsCardA from "./news_card_a";
 import NewsCardC from "./news_card_c";
-import { InfiniteScroll, List } from "antd-mobile";
+import { InfiniteScroll, List, DotLoading } from "antd-mobile";
 // import VariableSizeList from '../../components/virtualize_list/virtualize_list'
 import { category_status, heights_status } from "../utils/sessionUtils";
 import styles from "./news.module.css";
@@ -29,79 +29,120 @@ const Item = (props) => {
 };
 
 export default function News_() {
-  let [content, setContent] = useState(null);
-  // const [news_list, setList] = useState([]);
-  const news_list = useRef([]);
   const [show_list, setShowList] = useState([]);
   //   const estimatedItemHeight = clientWidth * 0.2;
   let [category, setCategory] = useState("news_hot");
   const listRef = useRef([]);
-  const heightsRef = useRef(new Array(100));
-  //预估高度
-  const getHeight = (index) => {
-    if (
-      heightsRef.current[index] === undefined ||
-      heightsRef.current[index === 0]
-    ) {
-      return estimatedItemHeight;
-    }
-    return heightsRef.current[index];
-  };
+  const containerRef = useRef();
+  const [showMore, setShowMore] = useState(false);
+  // const showMore = useRef(false);
 
-  async function loadMore() {}
+  async function loadMore() {
+    try {
+      const news = await getNews();
+      renderNews(news);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async function loadNews() {
+    try {
+      const news = await getNews();
+      renderNews(news);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
   function getNews() {
     const category = category_status.getCategory();
     setCategory(category);
-    getNewsFromCategory(category).then((res) => {
-      const { data } = res;
-      const response_news_list = data.map((news) => {
-        const { item_id, title, source, publish_time, image_list } = news;
-        // console.log(news);
-        //处理日期显示
-        const date = new Date(publish_time * 1000);
-        const datetime = `${date.getFullYear()}-${
-          date.getMonth() + 1
-        }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-        return {
-          item_id: item_id,
-          title: title,
-          source: source,
-          publish_time: datetime,
-          image_list: image_list,
-        };
-      });
-      // news_list.current = response_news_list;
-      renderNews(response_news_list);
-      return response_news_list;
+    return new Promise((resolve, reject) => {
+      getNewsFromCategory(category)
+        .then((res) => {
+          const { data } = res;
+          const response_news_list = data.map((news) => {
+            const { item_id, title, source, publish_time, image_list } = news;
+            // console.log(news);
+            //处理日期显示
+            const date = new Date(publish_time * 1000);
+            const datetime = `${date.getFullYear()}-${
+              date.getMonth() + 1
+            }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+            return {
+              item_id: item_id,
+              title: title,
+              source: source,
+              publish_time: datetime,
+              image_list: image_list,
+            };
+          });
+          // renderNews(response_news_list);
+          resolve(response_news_list);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
-    // .then((data) => {
-    //   news_list.current = data;
-    //   renderNews(data);
-    // });
   }
   function renderNews(data) {
+    const base_idx = listRef.current.length;
     let list = data.map((item, idx) => {
-      return <Item key={idx} index={idx} data={item} />;
+      return <Item key={base_idx + idx} index={base_idx + idx} data={item} />;
     });
     list = [...listRef.current, ...list];
+    listRef.current = list;
+    // showMore.current = true;
+    setShowMore(true);
     setShowList(list);
+
+    console.log(showMore);
   }
 
   function resetList() {
     listRef.current = [];
+    setShowMore(false);
+    if (containerRef.current) {
+      console.log(containerRef.current);
+      containerRef.current.scrollTo({
+        top: 0,
+      });
+    }
   }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, true);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const handleScroll = () => {
+    //加个节流
+    if (containerRef.current.scrollTop > 100) {
+      //加个回到顶部的button
+    }
+  };
 
   return (
     <>
       <div className={styles.cate}>
         <Category
           category={category}
-          get_news={getNews}
+          get_news={loadNews}
           reset_list={resetList}
         />
       </div>
-      <List>{show_list}</List>
-      <InfiniteScroll loadMore={loadMore} hasMore={true} />
+      <div className={styles.newsContainer} ref={containerRef}>
+        {listRef.current.length === 0 ? (
+          <DotLoading color="primary" style={{ marginTop: "1rem" }} />
+        ) : (
+          <>
+            <List>{show_list}</List>
+            {showMore ? (
+              <InfiniteScroll loadMore={loadMore} hasMore={true} />
+            ) : null}
+          </>
+        )}
+      </div>
     </>
   );
 }
