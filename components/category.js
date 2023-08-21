@@ -106,7 +106,7 @@ export default function Category(props) {
     <div className={styles.tabsheader}>
       <Tabs
         style={{
-          "--title-font-size": "0.48rem",
+          "--title-font-size": "0.45rem",
         }}
         activeKey={category}
         className={styles.tabs}
@@ -116,14 +116,14 @@ export default function Category(props) {
           <Tab title={value.title} key={value.key} />
         ))}
       </Tabs>
-      <AppstoreOutline
+      {/* <AppstoreOutline
         className={styles.moreIcon}
         onClick={() => {
           Toast.show({
             content: "别点了，还没做qaq",
           });
         }}
-      />
+      /> */}
     </div>
   );
 }

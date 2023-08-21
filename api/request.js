@@ -27,7 +27,7 @@ export default function request(url, data = {}, type = "GET", headers = null) {
       })
       .catch((err) => {
         Toast.show({
-          content: err.message,
+          content: err.response.data.message,
         });
       });
   });
