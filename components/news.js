@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
-// import { useNavigate } from 'react-router-dom'
+import { Router, useRouter } from "next/router";
 import Category from "./category";
 import { getNewsFromCategory } from "../api/newsapi";
 import NewsCardA from "./news_card_a";
@@ -11,6 +11,7 @@ import styles from "./news.module.css";
 
 const Item = (props) => {
   const { index, data } = props;
+  const router = useRouter();
   const { item_id, title, source, publish_time, image_list } = data;
   let item;
   if (image_list.length === 0) {
@@ -25,7 +26,18 @@ const Item = (props) => {
       />
     );
   }
-  return <div>{item}</div>;
+  const onClick = () => {
+    router.push({
+      pathname: "/detail",
+      query: {
+        item_id: item_id,
+        source: source,
+        publish_time: publish_time,
+        title: title,
+      },
+    });
+  };
+  return <div onClick={onClick}>{item}</div>;
 };
 
 export default function News_() {
@@ -109,18 +121,18 @@ export default function News_() {
     }
   }
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, true);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  const handleScroll = () => {
-    //加个节流
-    if (containerRef.current.scrollTop > 100) {
-      //加个回到顶部的button
-    }
-  };
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll, true);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+  // const handleScroll = () => {
+  //   //加个节流
+  //   if (containerRef.current.scrollTop > 100) {
+  //     //加个回到顶部的button
+  //   }
+  // };
 
   return (
     <>

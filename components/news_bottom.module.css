@@ -1,0 +1,21 @@
+.newsBottomContainer{
+    position: fixed;
+    bottom: 0;
+    height: 1.2rem;
+    display: flex;
+    max-width: 10rem;
+    width: 100%;
+    padding: 0.2rem;
+    border-top: 0.01rem solid rgba(220, 219, 219, 0.479);
+    box-sizing: border-box;
+    background-color: white;
+}
+.newsBottomComment{
+    flex: 1;
+    background-color: rgba(220, 219, 219, 0.479);
+    border: 0.01rem solid rgba(220, 219, 219, 0.479);
+    font-size: 0.45rem;
+    line-height: 0.8rem;
+    color: #a4a2a2;
+    border-radius: 0.4rem;
+}

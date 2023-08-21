@@ -1,8 +1,12 @@
 import request from "./request";
 import { Toast } from "antd-mobile";
 
-const base = 'http://localhost:3000/';
+const base = "http://localhost:3000/";
 
-export const getNewsFromCategory = function(type) {
-    return request(`${base}getNews?category=${type}`)
-}
+export const getNewsFromCategory = function (type) {
+  return request(`${base}getnews?category=${type}`);
+};
+
+export const getNewsDetail = function (itemId) {
+  return request(`${base}getdetail?itemid=${itemId}`);
+};
