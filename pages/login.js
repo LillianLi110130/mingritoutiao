@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
+import { useRouter } from "next/router";
 // import { useNavigate } from "react-router-dom";
 import { Button, Input, Toast } from "antd-mobile";
 import { CloseOutline } from "antd-mobile-icons";
 // import debouce from "../../tools/debouce";
-// import { userLogin } from "../../api";
-// import { user_status } from "../../utils/localUtils";
+import { userLogin } from "../api/userapi";
+import { user_status } from "../utils/sessionUtils";
 import styles from "./login.module.css";
-// import logo from "../../assets/images/logo.png";
 
 export default function Login() {
+  const router = useRouter();
   const [cansubmit, setSubmit] = useState(false);
   const username = useRef("");
 
@@ -17,7 +17,6 @@ export default function Login() {
 
   const back = () => {
     window.history.back();
-    // navigate("/");
   };
 
   const changeUsername = (value) => {
@@ -44,24 +43,19 @@ export default function Login() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // const Userdeboucefn = debouce(changeUsername, 500);
 
-  const login = async () => {
-    const data = await userLogin(username.current, passwd.current);
-    if (data.length === 0) {
-      //没有该用户
-      Toast.show({
-        icon: "fail",
-        content: "用户名或密码错误",
-      });
-    } else {
-      const { id } = data[0];
-      const user = { username: username.current, user_id: id };
-      user_status.saveUser(user);
+  const login = () => {
+    userLogin(username.current, passwd.current)
+    .then(value=>{
+      Toast.show("登录成功！");
       window.history.back();
-    }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
   };
 
   const toRegister = () => {
-    // navigate("/register");
+    router.push("/register");
   };
 
   useEffect(() => {
@@ -78,21 +72,23 @@ export default function Login() {
         <CloseOutline fontSize={"0.5rem"} color="var(--adm-color-weak)" />
       </div>
       <div className={styles.loginContainer}>
-        <img src='/images/logo.png' alt="logo" />
+        <img src="/images/logo.png" alt="logo" />
         <Input
           className={styles.loginInput}
           id="user_input"
           placeholder="请输入用户名"
           clearable
-          onChange={(e) => Userdeboucefn(e)}
+          // onChange={(e) => Userdeboucefn(e)}
           // onChange={e => debouce(changeUsername, 1000, e)()}
+          onChange={changeUsername}
         />
         <Input
           className={styles.loginInput}
           placeholder="请输入密码"
           type="password"
           clearable
-          onChange={(e) => Passdeboucefn(e)}
+          // onChange={(e) => Passdeboucefn(e)}
+          onChange={changePasswd}
         />
         <Button
           block

@@ -1,5 +1,5 @@
 const CATEGORY_KEY = 'news_category';
-const HEIGHTS_KEY = 'heights'
+const USER_KEY = 'user_key'
 
 export const category_status = {
     saveCategory(category) {
@@ -13,14 +13,14 @@ export const category_status = {
     }
 }
 
-export const heights_status = {
-    saveHeights(heights) {
-        sessionStorage.setItem(HEIGHTS_KEY, heights.join('.'));
+export const user_status = {
+    saveUser(token){
+        sessionStorage.setItem(USER_KEY, token);
     },
-    getHeights() {
-        return sessionStorage.getItem(HEIGHTS_KEY);
+    getUser(){
+        return sessionStorage.getItem(USER_KEY);
     },
-    removeHeights() {
-        sessionStorage.removeItem(HEIGHTS_KEY);
+    removeUser(){
+        sessionStorage.removeItem(USER_KEY);
     }
 }
