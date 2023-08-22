@@ -1,5 +1,5 @@
 import request from "./request";
-import { user_status } from "../utils/sessionUtils";
+import { user_status } from "../utils/localUtils";
 
 const base = "http://localhost:3000/";
 export const userRegister = function (username, password) {

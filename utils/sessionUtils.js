@@ -1,5 +1,5 @@
 const CATEGORY_KEY = 'news_category';
-const USER_KEY = 'user_key'
+
 
 export const category_status = {
     saveCategory(category) {
@@ -10,17 +10,5 @@ export const category_status = {
     },
     removeCategory() {
         sessionStorage.removeItem(CATEGORY_KEY);
-    }
-}
-
-export const user_status = {
-    saveUser(token){
-        sessionStorage.setItem(USER_KEY, token);
-    },
-    getUser(){
-        return sessionStorage.getItem(USER_KEY);
-    },
-    removeUser(){
-        sessionStorage.removeItem(USER_KEY);
     }
 }

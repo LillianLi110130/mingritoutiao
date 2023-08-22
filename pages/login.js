@@ -5,7 +5,7 @@ import { Button, Input, Toast } from "antd-mobile";
 import { CloseOutline } from "antd-mobile-icons";
 // import debouce from "../../tools/debouce";
 import { userLogin } from "../api/userapi";
-import { user_status } from "../utils/sessionUtils";
+import { user_status } from "../utils/localUtils";
 import styles from "./login.module.css";
 
 export default function Login() {
@@ -16,7 +16,16 @@ export default function Login() {
   const passwd = useRef("");
 
   const back = () => {
-    window.history.back();
+    //根据上一页路由选择跳转页面
+    const {
+      query: { as },
+    } = router;
+    if (as === "/mine") {
+      router.push("/");
+    } else {
+      // router.back();
+      router.back("/");
+    }
   };
 
   const changeUsername = (value) => {
@@ -45,13 +54,10 @@ export default function Login() {
 
   const login = () => {
     userLogin(username.current, passwd.current)
-    .then(value=>{
-      Toast.show("登录成功！");
-      window.history.back();
-    })
-    .catch(err=>{
-      console.log(err);
-    })
+      .then((value) => {
+        Toast.show("登录成功！");
+        window.history.back();
+      })
   };
 
   const toRegister = () => {

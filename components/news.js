@@ -62,7 +62,6 @@ export default function News_() {
       const news = await getNews();
       renderNews(news);
     } catch (error) {
-      throw new Error(error);
     }
   }
   function getNews() {
@@ -74,7 +73,6 @@ export default function News_() {
           const { data } = res;
           const response_news_list = data.map((news) => {
             const { item_id, title, source, publish_time, image_list } = news;
-            // console.log(news);
             //处理日期显示
             const date = new Date(publish_time * 1000);
             const datetime = `${date.getFullYear()}-${
@@ -106,15 +104,12 @@ export default function News_() {
     // showMore.current = true;
     setShowMore(true);
     setShowList(list);
-
-    console.log(showMore);
   }
 
   function resetList() {
     listRef.current = [];
     setShowMore(false);
     if (containerRef.current) {
-      console.log(containerRef.current);
       containerRef.current.scrollTo({
         top: 0,
       });
