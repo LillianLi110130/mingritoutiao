@@ -17,11 +17,11 @@ export default function Bottom() {
       title: "首页",
       icon: <AppOutline />,
     },
-    {
-      key: "/recommend",
-      title: "推荐",
-      icon: <EnvironmentOutline />,
-    },
+    // {
+    //   key: "/recommend",
+    //   title: "推荐",
+    //   icon: <EnvironmentOutline />,
+    // },
     {
       key: "/mine",
       title: "我的",
@@ -29,17 +29,6 @@ export default function Bottom() {
     },
   ];
   const setRouteActive = (value) => {
-    // if (value === "mine") {
-    //   //未登录的话跳转登录页
-    //   const user = user_status.getUser();
-    //   if (Object.getOwnPropertyNames(user).length === 0) {
-    //     navigate("/login");
-    //   } else {
-    //     navigate(value);
-    //   }
-    // } else {
-    //   navigate(value);
-    // }
     router.push(value);
   };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { NavBar, Dialog } from "antd-mobile";
-import { MessageOutline, MoreOutline } from "antd-mobile-icons";
+import { MoreOutline } from "antd-mobile-icons";
 import { user_status } from "../utils/localUtils";
 
 export default function Top(props) {
@@ -22,7 +22,7 @@ export default function Top(props) {
       right = null;
       break;
     case "我的":
-      left = <MessageOutline fontSize="0.6rem" />;
+      left = null;
       right = <MoreOutline fontSize="0.6rem" onClick={logout} />;
       break;
     default:
