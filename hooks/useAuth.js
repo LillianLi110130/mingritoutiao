@@ -1,19 +1,16 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useRouter } from "next/router";
 import { user_status } from "../utils/localUtils";
+import { current_router_status } from "../utils/memoryUtils";
 
 export function useAuth() {
   const router = useRouter();
-  const { asPath } = router;
-  useEffect(() => {
+  const { pathname } = router;
+  useLayoutEffect(() => {
     const token = user_status.getUser();
     if (!token) {
-      router.push({
-        pathname: "/login",
-        query: {
-          as: asPath,
-        },
-      });
+      current_router_status.setCurrent(pathname);
+      router.push("/login");
     }
   }, []);
 }

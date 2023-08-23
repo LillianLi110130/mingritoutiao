@@ -13,10 +13,13 @@ export default function Register() {
   const passwd = useRef("");
   const repeatPwd = useRef("");
   const router = useRouter();
-  //   const navigate = useNavigate();
+  const {
+    query: { as },
+  } = router;
 
   const back = () => {
-    router.push("/")
+    router.back();
+    // router.push("/");
     // navigate("/");
   };
 
@@ -66,12 +69,12 @@ export default function Register() {
       });
     } else {
       userRegister(username.current, passwd.current)
-      .then(data=>{
-        router.push("/login")
-      })
-      .catch(error=>{
-        console.log(error.response.data.error);
-      })
+        .then((data) => {
+          router.push("/login");
+        })
+        .catch((error) => {
+          console.log(error.response.data.error);
+        });
     }
   };
 

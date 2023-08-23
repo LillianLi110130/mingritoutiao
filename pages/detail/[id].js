@@ -1,27 +1,28 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { NavBar } from "antd-mobile";
-import { getNewsDetail } from "../api/newsapi";
-import NewsBottom from "../components/news_bottom";
-import modifyHtmlText from "../utils/htmlTextModify";
+import { getNewsDetail } from "../../api/newsapi";
+import NewsBottom from "../../components/news_bottom";
+import modifyHtmlText from "../../utils/htmlTextModify";
 // import NewsBottom from "../../components/news_bottom/news_bottom";
-import styles from "./detail.module.css";
+import styles from "./[id].module.css";
 
 export default function NewsDetail() {
   const router = useRouter();
+  console.log(router)
   const contentRef = useRef();
   const {
-    query: { item_id, source, publish_time, title },
+    query: {id, source, publish_time, title },
   } = router;
-  console.log(item_id, source, publish_time, title);
+  console.log(id, source, publish_time, title);
 
   const back = () => {
-    window.history.back();
+    router.push("/");
   };
 
-  async function getNews(item_id) {
-    console.log(item_id);
-    const response = getNewsDetail(item_id);
+  async function getNews(id) {
+    console.log(id);
+    const response = getNewsDetail(id);
     response
       .then((data) => {
         console.log(data);
@@ -41,11 +42,11 @@ export default function NewsDetail() {
   }
 
   useEffect(() => {
-    if (item_id) {
-      getNews(item_id);
+    if (id) {
+      getNews(id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item_id]);
+  }, [id]);
 
   return (
     <div className={styles.newsDetailContainer}>
@@ -66,7 +67,7 @@ export default function NewsDetail() {
           ></div>
         </>
       }
-      <NewsBottom news_id={item_id} />
+      <NewsBottom news_id={id} />
     </div>
   );
 }

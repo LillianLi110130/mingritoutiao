@@ -2,7 +2,7 @@ import React from "react";
 import { Toast } from "antd-mobile";
 import { MessageOutline, LinkOutline } from "antd-mobile-icons";
 // import Stars from "./stars";
-// import Likes from "./likes";
+import Likes from "./likes";
 import styles from "./news_bottom.module.css";
 
 export default function NewsBottom(props) {
@@ -24,7 +24,7 @@ export default function NewsBottom(props) {
       &nbsp;
       <MessageOutline fontSize={"0.8rem"} onClick={commentClick} /> &nbsp;
       {/* <Stars news_id={props.news_id} /> &nbsp; */}
-      {/* <Likes news_id={props.news_id} /> &nbsp; */}
+      <Likes news_id={props.news_id} /> &nbsp;
       <LinkOutline fontSize={"0.8rem"} onClick={shareClick} />
     </div>
   );

@@ -28,7 +28,7 @@ const Item = (props) => {
   }
   const onClick = () => {
     router.push({
-      pathname: "/detail",
+      pathname: `/detail/${item_id}`,
       query: {
         item_id: item_id,
         source: source,

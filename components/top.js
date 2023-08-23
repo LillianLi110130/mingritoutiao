@@ -1,9 +1,21 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { NavBar, Dialog } from "antd-mobile";
 import { MessageOutline, MoreOutline } from "antd-mobile-icons";
+import { user_status } from "../utils/localUtils";
 
 export default function Top(props) {
   let left, right;
+  const router = useRouter();
+  const logout = () => {
+    Dialog.confirm({
+      content: "是否退出登录",
+      onConfirm: () => {
+        user_status.removeUser();
+        router.push("/");
+      },
+    });
+  };
   switch (props.title) {
     case "新闻":
       left = null;
@@ -11,7 +23,7 @@ export default function Top(props) {
       break;
     case "我的":
       left = <MessageOutline fontSize="0.6rem" />;
-      right = <MoreOutline fontSize="0.6rem" />;
+      right = <MoreOutline fontSize="0.6rem" onClick={logout} />;
       break;
     default:
       left = null;

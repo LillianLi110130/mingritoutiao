@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { user_status } from "../utils/localUtils";
 import { Toast } from "antd-mobile";
 
@@ -7,11 +6,26 @@ export default function request(url, data = {}, type = "GET", headers = null) {
   const instance = axios.create({
     timeout: 30 * 1000,
   });
+  instance.interceptors.request.use(
+    function (config) {
+      const token = user_status.getUser();
+      if (token) {
+        config.headers["Authorization"] = token;
+      }
+      return config;
+    },
+    function (error) {
+      return new Promise.reject(error);
+    }
+  );
   instance.interceptors.response.use(
     (response) => {
       return response;
     },
     (error) => {
+      if (!error.response || !error.response.status) {
+        return Promise.reject(error);
+      }
       if (
         error.response.status === 500 ||
         error.response.status === 502 ||
@@ -21,23 +35,6 @@ export default function request(url, data = {}, type = "GET", headers = null) {
           icon: "fail",
           content: "服务器错误！",
         });
-      }
-      if (error.response.status === 403 || error.response.status === 401) {
-        user_status.removeUser();
-        Toast.show({
-          icon: "fail",
-          content: error.response.data.message,
-        });
-        if (error.response.status === 403) {  //未登录的情况，TODO：记录是从哪个页面跳转过来的（不能用useRouter
-          const router = useRouter();
-          const { asPath } = router;
-          router.push({
-            pathname: "/login",
-            query: {
-              as: asPath,
-            },
-          });
-        }
       }
       if (error.message.indexOf("timeout") !== -1) {
         Toast.show({

@@ -6,26 +6,38 @@ import { CloseOutline } from "antd-mobile-icons";
 // import debouce from "../../tools/debouce";
 import { userLogin } from "../api/userapi";
 import { user_status } from "../utils/localUtils";
+import { current_router_status } from "../utils/memoryUtils";
 import styles from "./login.module.css";
 
 export default function Login() {
   const router = useRouter();
+  const {
+    query: { as },
+  } = router;
+  const prev_router = current_router_status.getCurrent();
   const [cansubmit, setSubmit] = useState(false);
   const username = useRef("");
 
   const passwd = useRef("");
 
   const back = () => {
-    //根据上一页路由选择跳转页面
-    const {
-      query: { as },
-    } = router;
-    if (as === "/mine") {
-      router.push("/");
+    const { pathname, query } = prev_router;
+    current_router_status.removeCurrent();
+    if (pathname && pathname !== "/mine") {
+      router.push({
+        pathname,
+        query,
+      });
     } else {
-      // router.back();
-      router.back("/");
+      router.push("/");
     }
+    //根据上一页路由选择跳转页面
+    // if (as === "/mine") {
+    //   router.push("/");
+    // } else {
+    //   // router.back();
+    //   router.back("/");
+    // }
   };
 
   const changeUsername = (value) => {
@@ -56,12 +68,38 @@ export default function Login() {
     userLogin(username.current, passwd.current)
       .then((value) => {
         Toast.show("登录成功！");
-        window.history.back();
+        const { pathname, query } = prev_router;
+        current_router_status.removeCurrent();
+        if (pathname) {
+          router.push({
+            pathname,
+            query,
+          });
+        } else {
+          router.push("/");
+        }
       })
+      .catch((err) => {
+        if (err.status === 401) {
+          Toast.show({
+            icon: "fail",
+            content: err.data.message,
+          });
+        }
+      });
   };
 
   const toRegister = () => {
-    router.push("/register");
+    if (as) {
+      router.push({
+        pathname: "/register",
+        query: {
+          as,
+        },
+      });
+    } else {
+      router.push("/register");
+    }
   };
 
   useEffect(() => {
