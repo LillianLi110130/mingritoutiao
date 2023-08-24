@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { NavBar, DotLoading, Empty } from "antd-mobile";
 import NewsCardA from "../components/news_card_a";
-import { useAuth } from "../hooks/useAuth";
 import { mylikes } from "../api/userapi";
 import { current_router_status } from "../utils/memoryUtils";
 import styles from "./mylikes.module.css";
 
 export default function MyStars() {
-  useAuth();
   const router = useRouter();
   const [star_items, setItems] = useState(
     <div
