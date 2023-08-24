@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import CryptoJS from 'crypto-js'
 import { useRouter } from "next/router";
 import { Button, Input, Toast } from "antd-mobile";
 import { CloseOutline } from "antd-mobile-icons";
-// import debouce from '../../tools/debouce'
-// import { user_status } from '../../utils/localUtils'
 import { userRegister } from "../api/userapi";
 import styles from "./register.module.css";
 
@@ -13,14 +12,9 @@ export default function Register() {
   const passwd = useRef("");
   const repeatPwd = useRef("");
   const router = useRouter();
-  const {
-    query: { as },
-  } = router;
 
   const back = () => {
     router.back();
-    // router.push("/");
-    // navigate("/");
   };
 
   const changeUsername = (value) => {
@@ -68,7 +62,8 @@ export default function Register() {
         duration: 1000,
       });
     } else {
-      userRegister(username.current, passwd.current)
+      const hashPassrord = CryptoJS.SHA256(passwd.current).toString();
+      userRegister(username.current, hashPassrord)
         .then((data) => {
           router.push("/login");
         })

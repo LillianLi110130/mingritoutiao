@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
+import CryptoJS from "crypto-js";
 // import { useNavigate } from "react-router-dom";
 import { Button, Input, Toast } from "antd-mobile";
 import { CloseOutline } from "antd-mobile-icons";
+import { username_status } from "../utils/localUtils";
 // import debouce from "../../tools/debouce";
 import { userLogin } from "../api/userapi";
 import { user_status } from "../utils/localUtils";
@@ -31,13 +33,6 @@ export default function Login() {
     } else {
       router.push("/");
     }
-    //根据上一页路由选择跳转页面
-    // if (as === "/mine") {
-    //   router.push("/");
-    // } else {
-    //   // router.back();
-    //   router.back("/");
-    // }
   };
 
   const changeUsername = (value) => {
@@ -65,9 +60,11 @@ export default function Login() {
   // const Userdeboucefn = debouce(changeUsername, 500);
 
   const login = () => {
-    userLogin(username.current, passwd.current)
+    const hashPassrord = CryptoJS.SHA256(passwd.current).toString();
+    userLogin(username.current, hashPassrord)
       .then((value) => {
         Toast.show("登录成功！");
+        username_status.saveUserName(username.current);
         const { pathname, query } = prev_router;
         current_router_status.removeCurrent();
         if (pathname) {

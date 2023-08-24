@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { NavBar, Dialog } from "antd-mobile";
 import { MoreOutline } from "antd-mobile-icons";
 import { user_status } from "../utils/localUtils";
+import { username_status } from "../utils/localUtils";
 
 export default function Top(props) {
   let left, right;
@@ -12,6 +13,7 @@ export default function Top(props) {
       content: "是否退出登录",
       onConfirm: () => {
         user_status.removeUser();
+        username_status.removeUserName();
         router.push("/");
       },
     });

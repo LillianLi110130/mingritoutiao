@@ -1,4 +1,5 @@
 const USER_KEY = 'user_key'
+const USERNAME_KEY = 'user_name'
 
 export const user_status = {
     saveUser(token){
@@ -9,5 +10,17 @@ export const user_status = {
     },
     removeUser(){
         localStorage.removeItem(USER_KEY);
+    }
+}
+
+export const username_status = {
+    saveUserName(username){
+        localStorage.setItem(USERNAME_KEY, username);
+    },
+    getUserName(){
+        return localStorage.getItem(USERNAME_KEY);
+    },
+    removeUserName(){
+        localStorage.removeItem(USERNAME_KEY);
     }
 }
