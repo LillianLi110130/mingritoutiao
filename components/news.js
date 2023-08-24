@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
-import { Router, useRouter } from "next/router";
+import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import Category from "./category";
 import { getNewsFromCategory } from "../api/newsapi";
 import NewsCardA from "./news_card_a";
 import NewsCardC from "./news_card_c";
-import { InfiniteScroll, List, DotLoading } from "antd-mobile";
-// import VariableSizeList from '../../components/virtualize_list/virtualize_list'
+import { InfiniteScroll, List, DotLoading, FloatingBubble } from "antd-mobile";
+import { UpOutline } from "antd-mobile-icons";
 import { category_status, heights_status } from "../utils/sessionUtils";
 import styles from "./news.module.css";
 
@@ -42,6 +42,8 @@ const Item = (props) => {
 
 export default function News_() {
   const [show_list, setShowList] = useState([]);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [showTop, setShowTop] = useState(true);
   //   const estimatedItemHeight = clientWidth * 0.2;
   let [category, setCategory] = useState("news_hot");
   const listRef = useRef([]);
@@ -61,8 +63,7 @@ export default function News_() {
     try {
       const news = await getNews();
       renderNews(news);
-    } catch (error) {
-    }
+    } catch (error) {}
   }
   function getNews() {
     const category = category_status.getCategory();
@@ -116,19 +117,6 @@ export default function News_() {
     }
   }
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll, true);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-  // const handleScroll = () => {
-  //   //加个节流
-  //   if (containerRef.current.scrollTop > 100) {
-  //     //加个回到顶部的button
-  //   }
-  // };
-
   return (
     <>
       <div className={styles.cate}>
@@ -150,6 +138,26 @@ export default function News_() {
           </>
         )}
       </div>
+      <FloatingBubble
+        style={{
+          "--initial-position-bottom": "2rem",
+          "--initial-position-right": "0.5rem",
+          "--edge-distance": "0.1rem",
+          "--size": "1rem",
+        }}
+        onOffsetChange={(offset) => {
+          console.log(offset.y);
+          if (offset.y < 0 && offset.y > -300) {
+            setOffset(offset);
+          }
+        }}
+        offset={offset}
+        onClick={() => {
+          containerRef.current.scrollTop = 0;
+        }}
+      >
+        <UpOutline />
+      </FloatingBubble>
     </>
   );
 }
