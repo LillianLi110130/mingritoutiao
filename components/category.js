@@ -55,10 +55,6 @@ export default function Category(props) {
       key: "news_travel",
     },
     {
-      title: "探索",
-      key: "news_discovery",
-    },
-    {
       title: "育儿",
       key: "news_baby",
     },

@@ -4,7 +4,7 @@ import { Toast } from "antd-mobile";
 
 export default function request(url, data = {}, type = "GET", headers = null) {
   const instance = axios.create({
-    timeout: 30 * 1000,
+    timeout: 10 * 1000,
   });
   instance.interceptors.request.use(
     function (config) {

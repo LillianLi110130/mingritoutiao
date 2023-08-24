@@ -9,15 +9,16 @@ import styles from "./[id].module.css";
 
 export default function NewsDetail() {
   const router = useRouter();
-  console.log(router)
+  console.log(router);
   const contentRef = useRef();
   const {
-    query: {id, source, publish_time, title },
+    query: { id, source, publish_time, title },
   } = router;
   console.log(id, source, publish_time, title);
+  console.log(typeof publish_time);
 
   const back = () => {
-    router.push("/");
+    router.back();
   };
 
   async function getNews(id) {
@@ -67,7 +68,7 @@ export default function NewsDetail() {
           ></div>
         </>
       }
-      <NewsBottom news_id={id} />
+      <NewsBottom data={{ id, source, publish_time, title }} />
     </div>
   );
 }

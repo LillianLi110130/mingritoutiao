@@ -7,14 +7,14 @@ import { getLike, addLike, unlike } from "../api/userapi";
 
 export default function Likes(props) {
   const [isLike, setLike] = useState(false);
-  const { news_id } = props;
+  const { id, source, publish_time, title } = props.data;
   const router = useRouter();
   const user = user_status.getUser();
 
   const likeThisNews = async () => {
     if (user !== undefined) {
       try {
-        await addLike(news_id);
+        await addLike(id, source, publish_time, title);
         setLike(true);
       } catch (err) {
         //登录过期的处理
@@ -33,7 +33,7 @@ export default function Likes(props) {
 
   const unlikeThisNews = async () => {
     try {
-      await unlike(news_id);
+      await unlike(id);
       setLike(false);
     } catch (err) {
       //未登录的处理
@@ -48,7 +48,7 @@ export default function Likes(props) {
   );
   async function getLikeStatus() {
     try {
-      const star = await getLike(news_id);
+      const star = await getLike(id);
       const { code } = star;
       if (code === 0) {
         setLike(false);

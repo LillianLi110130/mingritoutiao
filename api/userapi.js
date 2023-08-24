@@ -33,9 +33,13 @@ export const getLike = function (news_id) {
   });
 };
 
-export const addLike = function (news_id) {
+export const addLike = function (news_id, source, publish_time, title) {
   return new Promise((resolve, reject) => {
-    request(`${base}addlike`, { newsId: news_id }, "POST")
+    request(
+      `${base}addlike`,
+      { newsId: news_id, source, publish_time, title },
+      "POST"
+    )
       .then((data) => {
         Toast.show(data.message);
         resolve();
@@ -62,6 +66,18 @@ export const unlike = function (news_id) {
           icon: "fail",
           content: err.data.message,
         });
+        reject(err);
+      });
+  });
+};
+
+export const mylikes = function () {
+  return new Promise((resolve, reject) => {
+    request(`${base}mylikes`)
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
         reject(err);
       });
   });

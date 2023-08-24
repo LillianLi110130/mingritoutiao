@@ -23,7 +23,7 @@ export default function Login() {
   const back = () => {
     const { pathname, query } = prev_router;
     current_router_status.removeCurrent();
-    if (pathname && pathname !== "/mine") {
+    if (pathname && pathname !== "/mine" && pathname !== "/mylikes") {
       router.push({
         pathname,
         query,

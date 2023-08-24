@@ -2,28 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Toast } from "antd-mobile";
 import { useAuth } from "../hooks/useAuth";
+import { mylikes } from "../api/userapi";
 import Layout from "../components/layout";
 import { user_status } from "../utils/localUtils";
 import styles from "./mine.module.css";
 
 export default function Mine() {
   useAuth();
-  const [nums, setNums] = useState(0);
+  const router = useRouter();
+  const [num, setNum] = useState(0);
   const user = user_status.getUser();
   const { username } = user;
 
-  const toStars = () => {
-    navigate("/mystars");
-  };
-
   const toLikes = () => {
-    navigate("/mylikes");
+    router.push("/mylikes");
   };
 
-  const getStarsAndLikesNum = async () => {
-    const star_num = await getUserStars(user.user_id);
-    const like_num = await getUserLikes(user.user_id);
-    setNums([like_num.length, star_num.length]);
+  const getLikesNum = async () => {
+    try {
+      const data = await mylikes();
+      setNum(data.length);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const notification = () => {
@@ -33,8 +34,7 @@ export default function Mine() {
   };
 
   useEffect(() => {
-    // getStarsAndLikesNum();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getLikesNum();
   }, []);
 
   return (
@@ -59,7 +59,7 @@ export default function Mine() {
           </div>
           <div className={styles.shareBox} onClick={toLikes}>
             <span className={styles.text}>点赞</span>
-            <span className={styles.number}>{nums}</span>
+            <span className={styles.number}>{num}</span>
           </div>
         </div>
 

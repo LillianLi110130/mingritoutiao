@@ -6,6 +6,7 @@ import Likes from "./likes";
 import styles from "./news_bottom.module.css";
 
 export default function NewsBottom(props) {
+  // const { news_id, source, publish_time, title } = props;
   const commentClick = () => {
     Toast.show({
       content: "还没做",
@@ -24,7 +25,7 @@ export default function NewsBottom(props) {
       &nbsp;
       <MessageOutline fontSize={"0.8rem"} onClick={commentClick} /> &nbsp;
       {/* <Stars news_id={props.news_id} /> &nbsp; */}
-      <Likes news_id={props.news_id} /> &nbsp;
+      <Likes data={props.data} /> &nbsp;
       <LinkOutline fontSize={"0.8rem"} onClick={shareClick} />
     </div>
   );
