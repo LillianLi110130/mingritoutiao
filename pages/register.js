@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import CryptoJS from 'crypto-js'
+import CryptoJS from "crypto-js";
 import { useRouter } from "next/router";
 import { Button, Input, Toast } from "antd-mobile";
 import { CloseOutline } from "antd-mobile-icons";
 import { userRegister } from "../api/userapi";
+import debounce from "../utils/debounce";
 import styles from "./register.module.css";
 
 export default function Register() {
@@ -45,15 +46,6 @@ export default function Register() {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   const userDeboucefn = useCallback(debouce(changeUsername, 500), []);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   const passDeboucefn = useCallback(debouce(changePasswd, 500), []);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   const repeatDeboucefn = useCallback(debouce(repeatPasswd, 500), []);
-
   const register = async () => {
     if (repeatPwd.current !== passwd.current) {
       Toast.show({
@@ -93,7 +85,7 @@ export default function Register() {
           placeholder="请输入用户名"
           clearable
           //   onChange={e => userDeboucefn(e)}
-          onChange={changeUsername}
+          onChange={debounce(changeUsername, 300)}
         />
         <Input
           className={styles.registerInput}
@@ -101,7 +93,7 @@ export default function Register() {
           type="password"
           clearable
           // onChange={(e) => passDeboucefn(e)}
-          onChange={changePasswd}
+          onChange={debounce(changePasswd, 300)}
         />
         <Input
           className={styles.registerInput}
@@ -109,7 +101,7 @@ export default function Register() {
           type="password"
           clearable
           // onChange={(e) => repeatDeboucefn(e)}
-          onChange={repeatPasswd}
+          onChange={debounce(repeatPasswd, 300)}
         />
         <Button
           block

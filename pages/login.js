@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import CryptoJS from "crypto-js";
-// import { useNavigate } from "react-router-dom";
 import { Button, Input, Toast } from "antd-mobile";
 import { CloseOutline } from "antd-mobile-icons";
 import { username_status } from "../utils/localUtils";
-// import debouce from "../../tools/debouce";
+import debounce from "../utils/debounce";
 import { userLogin } from "../api/userapi";
-import { user_status } from "../utils/localUtils";
 import { current_router_status } from "../utils/memoryUtils";
 import styles from "./login.module.css";
 
@@ -119,9 +117,10 @@ export default function Login() {
           id="user_input"
           placeholder="请输入用户名"
           clearable
+          onChange={debounce(changeUsername, 300)}
           // onChange={(e) => Userdeboucefn(e)}
           // onChange={e => debouce(changeUsername, 1000, e)()}
-          onChange={changeUsername}
+          // onChange={changeUsername}
         />
         <Input
           className={styles.loginInput}
@@ -129,7 +128,7 @@ export default function Login() {
           type="password"
           clearable
           // onChange={(e) => Passdeboucefn(e)}
-          onChange={changePasswd}
+          onChange={debounce(changePasswd, 300)}
         />
         <Button
           block

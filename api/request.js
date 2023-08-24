@@ -3,9 +3,7 @@ import { user_status } from "../utils/localUtils";
 import { Toast } from "antd-mobile";
 
 export default function request(url, data = {}, type = "GET", headers = null) {
-  const instance = axios.create({
-    timeout: 10 * 1000,
-  });
+  const instance = axios.create();
   instance.interceptors.request.use(
     function (config) {
       const token = user_status.getUser();
@@ -34,12 +32,6 @@ export default function request(url, data = {}, type = "GET", headers = null) {
         Toast.show({
           icon: "fail",
           content: "服务器错误！",
-        });
-      }
-      if (error.message.indexOf("timeout") !== -1) {
-        Toast.show({
-          icon: "fail",
-          content: "网络超时！",
         });
       }
       return Promise.reject(error.response);
