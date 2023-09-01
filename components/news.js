@@ -6,7 +6,7 @@ import NewsCardA from "./news_card_a";
 import NewsCardC from "./news_card_c";
 import { InfiniteScroll, List, DotLoading, FloatingBubble } from "antd-mobile";
 import { UpOutline } from "antd-mobile-icons";
-import { category_status, heights_status } from "../utils/sessionUtils";
+import { category_status } from "../utils/sessionUtils";
 import styles from "./news.module.css";
 
 const Item = (props) => {
@@ -28,9 +28,9 @@ const Item = (props) => {
   }
   const onClick = () => {
     router.push({
-      pathname: `/detail/${item_id}`,
+      pathname: `/detail`,
       query: {
-        item_id: item_id,
+        id: item_id,
         source: source,
         publish_time: publish_time,
         title: title,
@@ -43,13 +43,10 @@ const Item = (props) => {
 export default function News_() {
   const [show_list, setShowList] = useState([]);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [showTop, setShowTop] = useState(true);
-  //   const estimatedItemHeight = clientWidth * 0.2;
   let [category, setCategory] = useState("news_hot");
   const listRef = useRef([]);
   const containerRef = useRef();
   const [showMore, setShowMore] = useState(false);
-  // const showMore = useRef(false);
 
   async function loadMore() {
     try {
@@ -146,7 +143,6 @@ export default function News_() {
           "--size": "1rem",
         }}
         onOffsetChange={(offset) => {
-          console.log(offset.y);
           if (offset.y < 0 && offset.y > -300) {
             setOffset(offset);
           }

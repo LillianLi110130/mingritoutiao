@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "build": "next build",
-    "dev": "next dev -p 3001"
+    "build": "next build && next export",
+    "dev": "next dev -p 3001",
+    "start": "next start"
   },
   "dependencies": {
     "antd-mobile": "^5.32.0",

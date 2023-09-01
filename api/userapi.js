@@ -3,7 +3,9 @@ import { user_status } from "../utils/localUtils";
 import { Toast } from "antd-mobile";
 import { resolve } from "styled-jsx/css";
 
-const base = "http://localhost:3000/";
+// const base = "http://localhost:3000/api/";
+const base = "/api/";
+
 export const userRegister = function (username, password) {
   return request(`${base}register`, { username, password }, "POST");
 };

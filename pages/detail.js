@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { NavBar } from "antd-mobile";
-import { getNewsDetail } from "../../api/newsapi";
-import NewsBottom from "../../components/news_bottom";
-import modifyHtmlText from "../../utils/htmlTextModify";
-// import NewsBottom from "../../components/news_bottom/news_bottom";
-import styles from "./[id].module.css";
+import { getNewsDetail } from "../api/newsapi";
+import NewsBottom from "../components/news_bottom";
+import modifyHtmlText from "../utils/htmlTextModify";
+import styles from "./detail.module.css";
 
 export default function NewsDetail() {
   const router = useRouter();
@@ -14,8 +13,6 @@ export default function NewsDetail() {
   const {
     query: { id, source, publish_time, title },
   } = router;
-  console.log(id, source, publish_time, title);
-  console.log(typeof publish_time);
 
   const back = () => {
     router.back();

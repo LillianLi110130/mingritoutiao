@@ -9,9 +9,9 @@ export default function Likes(props) {
   const [isLike, setLike] = useState(false);
   const { id, source, publish_time, title } = props.data;
   const router = useRouter();
-  const user = user_status.getUser();
 
   const likeThisNews = async () => {
+    const user = user_status.getUser();
     if (user !== undefined) {
       try {
         await addLike(id, source, publish_time, title);
@@ -23,7 +23,7 @@ export default function Likes(props) {
         // });
         if (err.status === 403) {
           current_router_status.setCurrent(router.pathname, router.query);
-          router.push("/login")
+          router.push("/login");
         }
       }
     } else {
@@ -61,6 +61,7 @@ export default function Likes(props) {
   }
 
   useEffect(() => {
+    const user = user_status.getUser();
     if (user) {
       getLikeStatus();
     }

@@ -60,7 +60,12 @@ export default function Register() {
           router.push("/login");
         })
         .catch((error) => {
-          console.log(error.response.data.error);
+          if (error.status === 409) {
+            Toast.show({
+              icon: "fail",
+              content: error.data.message,
+            });
+          }
         });
     }
   };

@@ -7,6 +7,7 @@ import { username_status } from "../utils/localUtils";
 import debounce from "../utils/debounce";
 import { userLogin } from "../api/userapi";
 import { current_router_status } from "../utils/memoryUtils";
+import { user_status } from "../utils/localUtils";
 import styles from "./login.module.css";
 
 export default function Login() {
@@ -52,11 +53,6 @@ export default function Login() {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const Passdeboucefn = debouce(changePasswd, 500);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const Userdeboucefn = debouce(changeUsername, 500);
-
   const login = () => {
     const hashPassrord = CryptoJS.SHA256(passwd.current).toString();
     userLogin(username.current, hashPassrord)
@@ -98,11 +94,10 @@ export default function Login() {
   };
 
   useEffect(() => {
-    // const user = user_status.getUser();
-    // if (Object.getOwnPropertyNames(user).length !== 0) {
-    //   navigate("/home/mine");
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const token = user_status.getUser();
+    if (token) {
+      router.push("/");
+    }
   }, []);
 
   return (
@@ -118,16 +113,12 @@ export default function Login() {
           placeholder="请输入用户名"
           clearable
           onChange={debounce(changeUsername, 300)}
-          // onChange={(e) => Userdeboucefn(e)}
-          // onChange={e => debouce(changeUsername, 1000, e)()}
-          // onChange={changeUsername}
         />
         <Input
           className={styles.loginInput}
           placeholder="请输入密码"
           type="password"
           clearable
-          // onChange={(e) => Passdeboucefn(e)}
           onChange={debounce(changePasswd, 300)}
         />
         <Button

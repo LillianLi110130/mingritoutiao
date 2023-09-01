@@ -78,7 +78,7 @@ export default function MyStars() {
       <NavBar
         className={styles.top}
         onBack={() => {
-          window.history.back();
+          router.push("/mine");
         }}
       >
         我的收藏
